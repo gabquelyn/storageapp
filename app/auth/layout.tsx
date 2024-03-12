@@ -1,4 +1,3 @@
-"use client"
 import React from "react";
 
 export default function AuthLayout({
@@ -15,8 +14,8 @@ export default function AuthLayout({
         <div className="absolute inset-0 bg-[rgba(0,0,0,0.4)]"></div>
         <div className="z-10">
           <p className="text-[1.3rem] font-semibold">
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Error
-            nobis totam est culpa et!"
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Error
+            nobis totam est culpa et!
           </p>
           <p className="mt-3">- Kerlis Dweck</p>
         </div>
