@@ -8,6 +8,7 @@ import { IoMdNotificationsOutline } from "react-icons/io";
 import { VscFolderOpened } from "react-icons/vsc";
 import { BsQuestionCircle } from "react-icons/bs";
 import { HiUpload } from "react-icons/hi";
+import FilesTable from "@/app/components/FilesTable";
 export default function Dashboard() {
   const [searchTerm, setSearchTerm] = useState("");
   return (
@@ -31,7 +32,7 @@ export default function Dashboard() {
       <Hr />
       {/* main content */}
       <div className="m-[1rem] md:m-[2rem]">
-        <p className="font-semibold mb-3">Files</p>
+        <p className="font-bold mb-3">Files</p>
         {/* actions */}
         <div className="flex gap-3 items-center">
           <button className=" p-2 px-4 flex gap-2 items-center bg-coffee text-white">
@@ -47,6 +48,8 @@ export default function Dashboard() {
             <p> Organise</p>
           </button>
         </div>
+        {/* files display should appear here */}
+        <FilesTable />
       </div>
     </div>
   );

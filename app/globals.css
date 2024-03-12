@@ -13,3 +13,17 @@
   position: relative;
 }
 
+table{
+  width: 100%;
+  text-align: left;
+}
+table thead tr th{
+  @apply py-6 border-b-[1px] border-ash
+} 
+table tbody tr{
+  @apply border-b-[1px] border-ash
+}
+
+table tbody tr td {
+  @apply py-3 
+}
