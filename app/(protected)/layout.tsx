@@ -1,13 +1,28 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import Image from "next/image";
 import { FiSettings } from "react-icons/fi";
 import { MdLogout } from "react-icons/md";
+import { LuChevronsLeft, LuChevronsRight } from "react-icons/lu";
 import { FaChevronRight } from "react-icons/fa";
 import Hr from "../atoms/Hr";
+import clsx from "clsx";
 export default function layout({ children }: { children: React.ReactNode }) {
+  const [slideIn, setSlideIn] = useState(false);
   return (
-    <div className="grid grid-cols-[20%_80%]">
-      <div className="border-ash border-r-[1px] h-[100vh] overflow-hidden p-4 py-[3rem]">
+    <div className="flex md:grid md:grid-cols-[20%_80%]">
+      <div
+        className={clsx(
+          "border-ash border-r-[1px] h-[100vh] overflow-hidden p-3 md:py-[3rem] fixed md:relative z-10 bg-white w-[90%] md:w-fit transition-all duration-500",
+          slideIn ? "-translate-x-0" : "-translate-x-[150%] md:-translate-x-0"
+        )}
+      >
+        <button
+          className="p-3 md:hidden text-[1.2rem]"
+          onClick={() => setSlideIn(false)}
+        >
+          <LuChevronsLeft />
+        </button>
         <div className="p-4 rounded-[.5rem] bg-coffee text-white flex items-center gap-4">
           <div className="relative h-[3rem] w-[3rem] rounded-[50%] overflow-hidden">
             <Image src="/assets/images/holder.png" alt="holder image" fill />
@@ -22,18 +37,18 @@ export default function layout({ children }: { children: React.ReactNode }) {
           <p className="flex items-center justify-between">
             <span>My Files</span> <FaChevronRight className="text-grey" />
           </p>
-          <Hr/>
+          <Hr />
 
           <p className="flex items-center justify-between">
             <span>New Folder</span>
             <FaChevronRight className="text-grey" />
           </p>
-          <Hr/>
+          <Hr />
           <p className="flex items-center justify-between">
             <span>New File </span>
             <FaChevronRight className="text-grey" />
           </p>
-          <Hr/>
+          <Hr />
           <p className="flex gap-2">
             <FiSettings />
             Settings
@@ -44,7 +59,15 @@ export default function layout({ children }: { children: React.ReactNode }) {
           </p>
         </nav>
       </div>
-      <div>{children}</div>
+      <div>
+        <button
+          className="p-3 md:hidden text-[1.2rem]"
+          onClick={() => setSlideIn(true)}
+        >
+          <LuChevronsRight />
+        </button>
+        {children}
+      </div>
     </div>
   );
 }
