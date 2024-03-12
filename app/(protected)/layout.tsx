@@ -7,7 +7,7 @@ import { LuChevronsLeft, LuChevronsRight } from "react-icons/lu";
 import { FaChevronRight } from "react-icons/fa";
 import Hr from "../atoms/Hr";
 import clsx from "clsx";
-export default function layout({ children }: { children: React.ReactNode }) {
+export default function Layout({ children }: { children: React.ReactNode }) {
   const [slideIn, setSlideIn] = useState(false);
   return (
     <div className="flex md:grid md:grid-cols-[20%_80%]">
