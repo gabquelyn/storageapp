@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Nunito_Sans, Montserrat } from "next/font/google";
 import "./globals.css";
+import clsx from "clsx";
 
-const inter = Inter({ subsets: ["latin"] });
+const nuni = Montserrat({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={clsx(nuni.className, "text-[.9rem]")}>{children}</body>
     </html>
   );
 }
