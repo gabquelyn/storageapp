@@ -3,7 +3,7 @@ import { Nunito_Sans, Montserrat } from "next/font/google";
 import "./globals.css";
 import clsx from "clsx";
 
-const nuni = Montserrat({ subsets: ["latin"] });
+const nuni = Nunito_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",

@@ -7,7 +7,7 @@ export default function AuthLayout({
 }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2">
-      <div className="px-[2rem] md:px-[8rem] pt-[5rem] md:pt-0 flex items-center justify-center  overflow-hidden">
+      <div className="px-[2rem] md:px-[3rem] lg:px-[8rem] pt-[5rem] md:pt-0 flex items-center justify-center  overflow-hidden">
         {children}
       </div>
       <div className="hidden md:flex background text-white p-16">
