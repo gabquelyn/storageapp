@@ -59,7 +59,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </p>
         </nav>
       </div>
-      <div>
+      <div className="w-full">
         <button
           className="p-3 md:hidden text-[1.2rem]"
           onClick={() => setSlideIn(true)}
