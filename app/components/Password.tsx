@@ -64,7 +64,7 @@ export default function Password() {
         />
       </div>
       <div className="flex justify-end my-4">
-        <button className="bg-blue text-white p-3 px-8 rounded-md">Update password</button>
+        <button className="bg-light-blue text-white p-3 px-8 rounded-md">Update password</button>
       </div>
     </div>
   );

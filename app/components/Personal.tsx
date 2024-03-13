@@ -61,7 +61,7 @@ export default function Personal() {
         />
       </div>
       <div className="flex justify-end my-4">
-        <button className="bg-blue text-white p-3 px-8 rounded-md">
+        <button className="bg-light-blue text-white p-3 px-8 rounded-md">
           Update details
         </button>
       </div>
