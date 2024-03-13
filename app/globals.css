@@ -27,3 +27,11 @@ table tbody tr{
 table tbody tr td {
   @apply py-3 
 }
+
+.action {
+  @apply p-3 transition-all px-6 text-left hover:text-white hover:bg-blue rounded-md
+}
+
+.zoom {
+  @apply animate-in fade-in zoom-in;
+}

@@ -32,7 +32,7 @@ export default function Dashboard() {
       <Hr />
       {/* main content */}
       <div className="m-[1rem] md:m-[2rem]">
-        <p className="font-bold mb-3">Files</p>
+        <p className="font-bold mb-3 text-[1rem]">Files</p>
         {/* actions */}
         <div className="flex gap-3 items-center">
           <button className=" p-2 px-4 flex gap-2 items-center bg-coffee text-white">
