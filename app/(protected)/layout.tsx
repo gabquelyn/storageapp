@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { MdLogout } from "react-icons/md";
 import { LuChevronsLeft, LuChevronsRight } from "react-icons/lu";
+import { RiMenu2Line } from "react-icons/ri";
+import { IoCloseSharp } from "react-icons/io5";
 import Link from "next/link";
 import Link_ from "../atoms/Link_";
 import clsx from "clsx";
@@ -52,10 +54,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </div>
       <div className="w-full overflow-auto">
         <button
-          className="p-3 md:hidden text-[1.2rem] m-3 fixed z-10 bg-coffee text-white"
+          className="p-3 md:hidden rounded-md text-[1.2rem] m-3 fixed z-10 bg-coffee text-white"
           onClick={() => setSlideIn((prev) => !prev)}
         >
-          {slideIn ? <LuChevronsLeft /> : <LuChevronsRight />}
+          {slideIn ? <IoCloseSharp /> : <RiMenu2Line />}
         </button>
         <div className="mt-[4rem] md:mt-[1rem] m-[1rem]">{children}</div>
       </div>

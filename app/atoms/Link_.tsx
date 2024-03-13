@@ -15,6 +15,7 @@ export default function Link_({
   return (
     <Link
       href={_pathname}
+      onClick={onClick}
       className={clsx(
         "flex items-center action justify-between",
         pathname == _pathname && "bg-blue text-white"
