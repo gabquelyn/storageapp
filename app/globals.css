@@ -29,7 +29,7 @@ table tbody tr td {
 }
 
 .action {
-  @apply p-3 transition-all px-6 text-left hover:text-white hover:bg-light-blue rounded-md
+  @apply p-3 transition-all px-6 text-left hover:text-white hover:bg-blue rounded-md
 }
 
 .zoom {

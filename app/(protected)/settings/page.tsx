@@ -21,13 +21,13 @@ export default function Settings() {
           </div>
           <div className="flex flex-row justify-between md:justify-center md:flex-col gap-3">
             <button
-              className={clsx("action", show == 0 && "bg-light-blue text-white")}
+              className={clsx("action", show == 0 && "bg-blue text-white")}
               onClick={() => setShow(0)}
             >
               Personal Information
             </button>
             <button
-              className={clsx("action", show == 1 && "bg-light-blue text-white")}
+              className={clsx("action", show == 1 && "bg-blue text-white")}
               onClick={() => setShow(1)}
             >
               Security
