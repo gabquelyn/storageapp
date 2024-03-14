@@ -33,6 +33,7 @@ export default function Settings() {
               Security
             </button>
             <button className="action">Plans</button>
+            <button className="action">Users</button>
           </div>
         </div>
         <div>{show === 0 ? <Personal /> : show === 1 ? <Password /> : ""}</div>

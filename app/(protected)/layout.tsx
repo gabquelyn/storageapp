@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { MdLogout } from "react-icons/md";
-import { LuChevronsLeft, LuChevronsRight } from "react-icons/lu";
 import { RiMenu2Line } from "react-icons/ri";
 import { IoCloseSharp } from "react-icons/io5";
 import Link from "next/link";
