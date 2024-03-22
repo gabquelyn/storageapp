@@ -6,23 +6,62 @@ import SignWith from "@/app/atoms/SignWith";
 import { BsPerson } from "react-icons/bs";
 import Input from "@/app/atoms/Input";
 import Link from "next/link";
+import Image from "next/image";
+import ActionButton from "@/app/atoms/ActionButton";
+import { useSignUpMutation } from "@/app/api/features/authApiSlice";
+import validator from "validator";
 export default function SignUp() {
   const [signInDetails, setSignInDetails] = useState({
     name: "",
     email: "",
     password: "",
   });
-
+  const [register, { isSuccess, isLoading, isError }] = useSignUpMutation();
   const [passwordToggled, setPasswordToggles] = useState(false);
   const inputChangeHandler: InputHandler = (e) => {
     const { name, value } = e.target;
     setSignInDetails((prev) => ({ ...prev, [name]: value }));
   };
 
+  const registerHandler = async () => {
+    if (
+      !validator.isEmail(signInDetails.email) ||
+      !signInDetails.name ||
+      signInDetails.password
+    )
+      return;
+    try {
+      const res = await register({ ...signInDetails });
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
-    <div className="w-full">
+    <div className="w-full relative">
+      {isSuccess && (
+        <div className="absolute flex flex-col gap-2 items-center justify-center z-10 bg-slate-50 inset-0">
+          <Image
+            src="/assets/images/sent.svg"
+            alt="sent image"
+            height={200}
+            width={340}
+          />
+          <p className="font-semibold text-[1.2rem]">
+            Verification email sent!.
+          </p>
+          <p>Please confirm your email address.</p>
+        </div>
+      )}
+
       <SignWith type="up" />
       <div className="flex flex-col gap-4">
+        {isError && (
+          <p className="text-red-500">
+            Account already exists, try login instead
+          </p>
+        )}
         <Input
           icon={<BsPerson />}
           name="name"
@@ -55,11 +94,11 @@ export default function SignUp() {
       </div>
       <p className="text-[.7rem] my-2">
         I agree to the{" "}
-        <span className="text-light-blue font-semibold">Terms & Conditions</span>
+        <span className="text-light-blue font-semibold">
+          Terms & Conditions
+        </span>
       </p>
-      <button className="text-white bg-light-blue p-4 rounded-lg mt-5 w-full">
-        Login
-      </button>
+      <ActionButton isLoading={isLoading} onClick={registerHandler} cta="Register" />
       <p className="text-[.7rem] mt-1">
         Already have an account?
         <Link href="/auth/signin" className="text-light-blue ml-2">

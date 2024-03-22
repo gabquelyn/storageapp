@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Nunito_Sans, Montserrat } from "next/font/google";
 import "./globals.css";
 import clsx from "clsx";
+import Providers from "./utils/Providers";
 
 const nuni = Nunito_Sans({ subsets: ["latin"] });
 
@@ -17,7 +18,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={clsx(nuni.className, "text-[.9rem]")}>{children}</body>
+      <body className={clsx(nuni.className, "text-[.9rem]")}>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }

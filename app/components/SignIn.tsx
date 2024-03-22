@@ -5,16 +5,38 @@ import { MdOutlineEmail } from "react-icons/md";
 import { AiOutlineLock } from "react-icons/ai";
 import Link from "next/link";
 import Input from "@/app/atoms/Input";
+import { useRouter } from "next/navigation";
+import { useLoginMutation } from "../api/features/authApiSlice";
+import { setCredentials } from "../api/authSlice";
+import { useDispatch } from "react-redux";
+import ActionButton from "../atoms/ActionButton";
+import validator from "validator";
 export default function SignIn() {
   const [signInDetails, setSignInDetails] = useState({
     email: "",
     password: "",
   });
 
+  const dispatch = useDispatch();
+  const router = useRouter();
   const [passwordToggled, setPasswordToggles] = useState(false);
+  const [login, { isLoading }] = useLoginMutation();
   const inputChangeHandler: InputHandler = (e) => {
     const { name, value } = e.target;
     setSignInDetails((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const loginHandler = async () => {
+    if (!validator.isEmail(signInDetails.email) || !signInDetails.password)
+      return;
+    try {
+      const res = await login({ ...signInDetails });
+      dispatch(setCredentials({ ...res }));
+      router.push("/dashboard");
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -43,16 +65,21 @@ export default function SignIn() {
         />
         <div className="flex items-center justify-between">
           <label className="flex items-center gap-1">
-          <input type="checkbox" className="accent-light-blue" />
-          <p className="text-light-blue text-[.8rem]">Remember me</p>
+            <input type="checkbox" className="accent-light-blue" />
+            <p className="text-light-blue text-[.8rem]">Remember me</p>
           </label>
-          <Link className="text-light-blue underline text-[.8rem]" href="">
+          <Link
+            className="text-light-blue underline text-[.8rem]"
+            href="/auth/forgot"
+          >
             Forgot Password?
           </Link>
         </div>
-        <button className="text-white bg-light-blue p-4 rounded-lg mt-5 w-full">
-          Login
-        </button>
+        <ActionButton
+          isLoading={isLoading}
+          onClick={loginHandler}
+          cta="Login"
+        />
       </div>
 
       <p className="text-[.8rem] my-2">
