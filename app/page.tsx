@@ -2,6 +2,7 @@ import React from "react";
 import SignIn from "./components/SignIn";
 
 export default function Poot() {
+  console.log(process.env.NEXT_PUBLIC_SERVER);
   return (
     <div className="grid grid-cols-1 md:grid-cols-2">
       <div className="px-[2rem] md:px-[3rem] lg:px-[8rem] pt-[5rem] md:pt-0 flex items-center justify-center  overflow-hidden">
