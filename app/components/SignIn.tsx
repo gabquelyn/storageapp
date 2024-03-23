@@ -33,6 +33,7 @@ export default function SignIn() {
       return;
     try {
       const res = await login({ ...signInDetails }).unwrap();
+      console.log(res)
       dispatch(setCredentials({ ...res }));
       router.push("/dashboard");
     } catch (err) {
