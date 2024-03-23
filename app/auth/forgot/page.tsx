@@ -8,17 +8,17 @@ import validator from "validator";
 import ActionButton from "@/app/atoms/ActionButton";
 export default function ForgotPage() {
   const [email, setEmail] = useState("");
-  const [forgot, { isLoading, isSuccess }] = useForgotMutation();
+  const [forgot, { isLoading, isSuccess, isError }] = useForgotMutation();
   const forgotHandler = async () => {
     if (!validator.isEmail(email)) return;
     try {
-      await forgot({ email });
+      await forgot(email).unwrap();
     } catch (err) {
       console.log(err);
     }
   };
   return (
-    <div className="w-full">
+    <div className="w-full relative">
       {isSuccess && (
         <div className="absolute flex flex-col gap-2 items-center justify-center z-10 bg-slate-50 inset-0">
           <Image
@@ -36,6 +36,7 @@ export default function ForgotPage() {
       <p className="font-semibold text-[1.4rem] mb-10 capitalize text-center md:text-left">
         Recover your account
       </p>
+      {isError && <p className="text-red-500">Account does not exist</p>}
       <Input
         icon={<MdOutlineEmail />}
         name="email"
@@ -45,11 +46,11 @@ export default function ForgotPage() {
         label="Enter email assocaited with your account"
         onChange={(e) => setEmail(e.target.value)}
       />
-       <ActionButton
-          isLoading={isLoading}
-          onClick={forgotHandler}
-          cta="Find account"
-        />
+      <ActionButton
+        isLoading={isLoading}
+        onClick={forgotHandler}
+        cta="Find account"
+      />
     </div>
   );
 }

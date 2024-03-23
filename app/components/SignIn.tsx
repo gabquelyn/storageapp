@@ -18,10 +18,12 @@ export default function SignIn() {
   });
 
   const dispatch = useDispatch();
+  const [err, setErr] = useState("");
   const router = useRouter();
   const [passwordToggled, setPasswordToggles] = useState(false);
   const [login, { isLoading }] = useLoginMutation();
   const inputChangeHandler: InputHandler = (e) => {
+    setErr("");
     const { name, value } = e.target;
     setSignInDetails((prev) => ({ ...prev, [name]: value }));
   };
@@ -30,11 +32,23 @@ export default function SignIn() {
     if (!validator.isEmail(signInDetails.email) || !signInDetails.password)
       return;
     try {
-      const res = await login({ ...signInDetails });
+      const res = await login({ ...signInDetails }).unwrap();
       dispatch(setCredentials({ ...res }));
       router.push("/dashboard");
-      console.log(res);
     } catch (err) {
+      if ((err as CustomError).status === 404) {
+         setErr("Oops! Account does not exist");
+      }
+      if ((err as CustomError).status === 401) {
+         setErr("Invalid email or password!");
+      }
+      if ((err as CustomError).status === 400) {
+         setErr("Account not verified, check email to verify!");
+      }
+      setSignInDetails({
+        email: "",
+        password: ""
+      })
       console.log(err);
     }
   };
@@ -43,6 +57,7 @@ export default function SignIn() {
     <div className="w-full">
       <SignWith type="in" />
       <div className="flex flex-col gap-4">
+        {err && <p className="text-red-500">{err}</p>}
         <Input
           icon={<MdOutlineEmail />}
           name="email"

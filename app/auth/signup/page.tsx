@@ -27,12 +27,11 @@ export default function SignUp() {
     if (
       !validator.isEmail(signInDetails.email) ||
       !signInDetails.name ||
-      signInDetails.password
+      signInDetails.password.length < 8
     )
       return;
     try {
-      const res = await register({ ...signInDetails });
-      console.log(res);
+      await register({ ...signInDetails });
     } catch (err) {
       console.log(err);
     }
@@ -91,6 +90,11 @@ export default function SignUp() {
           toggle={passwordToggled}
           onToggle={() => setPasswordToggles((prev) => !prev)}
         />
+        {signInDetails.password.length < 8 && (
+          <p className="text-orange-500">
+            Password must be at least 8 characters
+          </p>
+        )}
       </div>
       <p className="text-[.7rem] my-2">
         I agree to the{" "}
@@ -98,7 +102,11 @@ export default function SignUp() {
           Terms & Conditions
         </span>
       </p>
-      <ActionButton isLoading={isLoading} onClick={registerHandler} cta="Register" />
+      <ActionButton
+        isLoading={isLoading}
+        onClick={registerHandler}
+        cta="Register"
+      />
       <p className="text-[.7rem] mt-1">
         Already have an account?
         <Link href="/auth/signin" className="text-light-blue ml-2">

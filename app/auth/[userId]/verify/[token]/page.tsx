@@ -7,7 +7,7 @@ import { useVerifyQuery } from "@/app/api/features/authApiSlice";
 import { CircleSpinner } from "react-spinners-kit";
 export default function VerifyAccount() {
   const { userId, token } = useParams();
-  const {  isSuccess, isLoading, isError } = useVerifyQuery({
+  const {  data, isSuccess, isLoading, isError } = useVerifyQuery({
     userId,
     token,
   });
@@ -24,12 +24,13 @@ export default function VerifyAccount() {
         <p className="font-semibold text-[1rem]">
           Email verified successfully!
         </p>
-        <Link href="/auth" className="text-light-blue underline">
+        <Link href="/auth/signin" className="text-light-blue underline">
           continue to login
         </Link>
       </div>
     );
   }
+
   if (isError) {
     return (
       <div>

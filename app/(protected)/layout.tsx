@@ -4,11 +4,15 @@ import Image from "next/image";
 import { MdLogout } from "react-icons/md";
 import { RiMenu2Line } from "react-icons/ri";
 import { IoCloseSharp } from "react-icons/io5";
-import Link from "next/link";
 import Link_ from "../atoms/Link_";
+import { useSendLogOutMutation } from "../api/features/authApiSlice";
 import clsx from "clsx";
+import { CircleSpinner } from "react-spinners-kit";
+import { useRouter } from "next/navigation";
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [slideIn, setSlideIn] = useState(false);
+  const router = useRouter()
+  const [logout, { isLoading }] = useSendLogOutMutation();
   return (
     <div className="flex md:grid md:grid-cols-[25%_75%] h-[100vh] overflow-hidden">
       <div
@@ -45,10 +49,16 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             onClick={() => setSlideIn(false)}
           />
 
-          <Link href="/auth/signin" className="action flex items-center gap-2">
+          <button
+            className="action flex items-center gap-2"
+            onClick={async () => {
+              await logout(null);
+              router.replace("/auth/signin")
+            }}
+          >
             <MdLogout />
-            Log out
-          </Link>
+            {isLoading ? <CircleSpinner /> : <p>Log out</p>}
+          </button>
         </nav>
       </div>
       <div className="w-full overflow-auto">
