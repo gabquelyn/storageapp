@@ -4,7 +4,7 @@ import "./globals.css";
 import clsx from "clsx";
 import Providers from "./utils/Providers";
 
-const nuni = Nunito_Sans({ subsets: ["latin"] });
+const nuni = Montserrat({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",

@@ -28,8 +28,6 @@ export default function Search({
             disableError
           />
         </div>
-        <IoMdNotificationsOutline className="text-[1.2rem]" />
-        <BsQuestionCircle className="text-[1.2rem]" />
       </div>
       <Hr />
     </>

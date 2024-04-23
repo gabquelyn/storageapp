@@ -3,7 +3,7 @@ import { HiUpload } from "react-icons/hi";
 import Uploading from "./Uploading";
 export default function NotFoundAdd() {
   return (
-    <div className="flex flex-col gap-8 items-center text-center mt-10 rounded-lg justify-center h-[50vh] bg-slate-100">
+    <div className="flex flex-col gap-8 items-center text-center overflow-hidden rounded-lg justify-center h-[100vh]">
       <div className="flex flex-col gap-2 items-center justify-center">
         <p className="font-semibold text-[1rem]">The folder is empty</p>
         <p>Drag and drop files unto this window to upload</p>
@@ -12,7 +12,7 @@ export default function NotFoundAdd() {
           <p>Upload file</p>
         </button>
       </div>
-        <Uploading name="sikd.pdf" perc={45} size={"34.2MB"} />
+      <Uploading name="sikd.pdf" perc={45} size={"34.2MB"} />
     </div>
   );
 }
