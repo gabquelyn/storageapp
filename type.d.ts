@@ -6,7 +6,7 @@ interface CustomError {
 }
 
 interface filemetaData {
-  id: number;
+  id: string;
   userId: number;
   size: number;
   key: string;
@@ -18,7 +18,7 @@ interface filemetaData {
 }
 
 interface foldermetadata {
-  id: number;
+  id: string;
   userId: number;
   foldername: string;
   createdAt: string;

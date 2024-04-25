@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useRefreshMutation } from "../api/features/authApiSlice";
 import { selectCurrentToken } from "../api/authSlice";
 import { useSelector } from "react-redux";
@@ -17,10 +17,10 @@ export default function RequireAuth({
   const [trueSuccess, setTrueSuccess] = useState<boolean>(false);
   const [refresh, { isLoading, isError, isSuccess, isUninitialized }] =
     useRefreshMutation();
-  // const effectRan = useRef(false);
+  const effectRan = useRef(false);
 
   useEffect(() => {
-    // if (effectRan.current === true || process.env.NODE_ENV !== "development") {
+    if (effectRan.current === true || process.env.NODE_ENV !== "development") {
     const verifyRefreshToken = async () => {
       try {
         await refresh(null);
@@ -33,11 +33,11 @@ export default function RequireAuth({
     if (!token) {
       verifyRefreshToken();
     }
-    // }
+    }
 
-    // return () => {
-    //   effectRan.current = true;
-    // };
+    return () => {
+      effectRan.current = true;
+    };
 
     //eslint-disable-next-line
   }, []);

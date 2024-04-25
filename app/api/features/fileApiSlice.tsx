@@ -13,11 +13,25 @@ const fileApiSlice = apiSlice.injectEndpoints({
       }),
       providesTags: [{ type: "File", id: "List" }],
     }),
+    deleteFolderFiles: builder.mutation({
+      query: (folderId) => ({
+        url: `/file/folder/${folderId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: [{ type: "File", id: "List" }],
+    }),
     uploadFiles: builder.mutation({
       query: (formData) => ({
         url: "/file",
         method: "POST",
         body: formData,
+      }),
+      invalidatesTags: [{ type: "File", id: "List" }],
+    }),
+    deleteFile: builder.mutation({
+      query: (fileId) => ({
+        url: `/file/${fileId}`,
+        method: "DELETE",
       }),
       invalidatesTags: [{ type: "File", id: "List" }],
     }),
@@ -37,4 +51,6 @@ export const {
   useCreateFolderMutation,
   useUploadFilesMutation,
   useGetFolderFilesQuery,
+  useDeleteFileMutation,
+  useDeleteFolderFilesMutation,
 } = fileApiSlice;

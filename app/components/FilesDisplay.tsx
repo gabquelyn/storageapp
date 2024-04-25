@@ -11,7 +11,10 @@ import Uploading from "./Uploading";
 import {
   useCreateFolderMutation,
   useUploadFilesMutation,
+  useDeleteFileMutation,
+  useDeleteFolderFilesMutation,
 } from "../api/features/fileApiSlice";
+import DeleteModal from "./DeleteModal";
 import CenterLoading from "./CenterLoading";
 import { LuFolderPlus } from "react-icons/lu";
 export default function FileDisplay({
@@ -19,16 +22,19 @@ export default function FileDisplay({
   folders,
   disableFolder,
   folderName,
-  folderId
+  folderId,
 }: {
   filess: filemetaData[];
   folders: foldermetadata[];
   disableFolder?: boolean;
   folderName?: string;
-  folderId?:string
+  folderId?: string;
 }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [foldername, setFolderName] = useState("");
+  const [deleteInitiated, setDeleteInitiated] = useState("");
+  const [filename, setFileName] = useState("");
+  const [type, setType] = useState<"file" | "folder">("file");
   const [creatingNew, setCreatingNew] = useState(false);
   const [isError, setIsError] = useState(false);
   const [files, setFiles] = useState<FileList>();
@@ -36,6 +42,12 @@ export default function FileDisplay({
   const [create, { isLoading: creatingNewFolder }] = useCreateFolderMutation();
   const [upload, { isLoading: uploadingFiles, isError: uploadingFailed }] =
     useUploadFilesMutation();
+  const [deletFile, { isLoading: deletingFile, isError: deletingFailed }] =
+    useDeleteFileMutation();
+  const [
+    deletFolder,
+    { isLoading: deletingFolder, isError: deletingFolderFailed },
+  ] = useDeleteFolderFilesMutation();
 
   const createFolderHandler = async () => {
     if (!foldername) return;
@@ -52,19 +64,38 @@ export default function FileDisplay({
     if (files) {
       const formData = new FormData();
       Array.from(files).forEach((file) => formData.append("files", file));
-      if(folderId) formData.append("folderId", folderId);
+      if (folderId) formData.append("folderId", folderId);
       try {
         const res = await upload(formData).unwrap();
         console.log(res);
-        setFiles(undefined)
+        setFiles(undefined);
       } catch (err) {
         console.log(err);
       }
     }
   };
 
+  const fileDeleteHandler = async () => {
+    try {
+      if (type === "file") await deletFile(deleteInitiated).unwrap();
+      else await deletFolder(deleteInitiated).unwrap();
+      setDeleteInitiated("");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div>
+      {deleteInitiated && (
+        <DeleteModal
+          closeModal={() => setDeleteInitiated("")}
+          filename={filename}
+          isError={deletingFailed || deletingFolderFailed}
+          isLoading={deletingFile || deletingFolder}
+          onDelete={fileDeleteHandler}
+        />
+      )}
       <Search
         onChange={(e) => setSearchTerm(e.target.value)}
         value={searchTerm}
@@ -166,8 +197,21 @@ export default function FileDisplay({
             </div>
           </div>
         )}
+
         {/* files display should appear here */}
-        <FilesTable files={filess} folders={folders} />
+        <FilesTable
+          files={filess.filter((file) =>
+            file.originalname.includes(searchTerm)
+          )}
+          folders={folders.filter((folder) =>
+            folder.foldername.includes(searchTerm)
+          )}
+          initiateDelete={(deleteDetails) => {
+            setDeleteInitiated(deleteDetails.id);
+            setFileName(deleteDetails.filename);
+            setType(deleteDetails.type);
+          }}
+        />
         {/* <NotFoundAdd /> */}
         {/* if no file table */}
       </MainArea>
