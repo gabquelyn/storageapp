@@ -10,10 +10,16 @@ import clsx from "clsx";
 import { CircleSpinner } from "react-spinners-kit";
 import { useRouter } from "next/navigation";
 import RequireAuth from "../utils/RequireAuth";
+import { useGetProfileQuery } from "../api/features/profileApislice";
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [slideIn, setSlideIn] = useState(false);
   const router = useRouter();
   const [logout, { isLoading }] = useSendLogOutMutation();
+  const {
+    data,
+    isLoading: gettingProfile,
+    isSuccess,
+  } = useGetProfileQuery(null);
   return (
     <RequireAuth>
       <div className="flex md:grid md:grid-cols-[25%_75%] h-[100vh] overflow-hidden">
@@ -25,11 +31,18 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         >
           <div className="p-4 rounded-[.5rem] bg-blue text-white flex items-center gap-4">
             <div className="relative h-[3rem] w-[3rem] rounded-[50%] overflow-hidden">
-              <Image src="/assets/images/holder.png" alt="holder image" fill />
+              <Image
+                src="/assets/images/holder.png"
+                alt="holder image"
+                fill
+                className="object-cover"
+              />
               <div className="absolute bg-green-600 w-2 h-2 rounded-[50%] bottom-0 left-[50%] -translate-x-[50%]"></div>
             </div>
             <div>
-              <p className="font-bold text-[1.2rem]">Sarah Jones</p>
+              <p className="font-bold text-[1.2rem] max-w-[8rem] text-nowrap overflow-hidden text-ellipsis">
+                {gettingProfile ? "..." : isSuccess && data.name}
+              </p>
               <p>Active</p>
             </div>
           </div>
@@ -37,11 +50,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <Link_
               name="My files"
               _pathname="/dashboard"
-              onClick={() => setSlideIn(false)}
-            />
-            <Link_
-              name="New folder"
-              _pathname="/new"
               onClick={() => setSlideIn(false)}
             />
 

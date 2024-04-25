@@ -4,7 +4,7 @@ import { useRefreshMutation } from "../api/features/authApiSlice";
 import { selectCurrentToken } from "../api/authSlice";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
-import { DominoSpinner } from "react-spinners-kit";
+import CenterLoading from "../components/CenterLoading";
 import Link from "next/link";
 
 export default function RequireAuth({
@@ -45,7 +45,7 @@ export default function RequireAuth({
   if (isLoading)
     return (
       <div className="flex items-center justify-center h-[100vh]">
-        <DominoSpinner color = "#77CEEF"/>
+        <CenterLoading/>
       </div>
     );
   if (isError)

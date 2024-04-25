@@ -1,21 +1,22 @@
 import React from "react";
 import { CircleSpinner } from "react-spinners-kit";
+import ModalWrapper from "./ModalWrapper";
 export default function DeleteModal({
   closeModal,
   filename,
   isLoading,
   isError,
-  onDelete
+  onDelete,
 }: {
   closeModal: () => void;
   filename: string;
   isLoading: boolean;
   isError: boolean;
-  onDelete: () => void
+  onDelete: () => void;
 }) {
   return (
-    <div className="fixed bg-[rgba(0,0,0,0.2)] inset-0 z-10 p-3 flex items-center justify-center rounded-md">
-      <div className="p-8 rounded-md bg-slate-100 flex flex-col gap-2">
+    <ModalWrapper>
+      <div className="p-8 rounded-md bg-slate-100 flex flex-col gap-2 max-w-[90%]">
         <div>
           <p className="font-semibold uppercase ">Deleting file initiated</p>
           <p className="text-[.7rem] italic">Filename: {filename}</p>
@@ -45,6 +46,6 @@ export default function DeleteModal({
 
         {isError && <div className="text-red-500">Deleting file failed!</div>}
       </div>
-    </div>
+    </ModalWrapper>
   );
 }
