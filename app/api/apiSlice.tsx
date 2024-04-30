@@ -37,6 +37,6 @@ const baseQueryWithReAuth: BaseQueryFn = async (args, api, extraOptions) => {
 
 export const apiSlice = createApi({
   baseQuery: baseQueryWithReAuth,
-  tagTypes: ["File", "Profile"],
+  tagTypes: ["File", "Profile", "Subscription"],
   endpoints: (builder) => ({}),
 });
