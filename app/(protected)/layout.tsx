@@ -67,7 +67,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               }}
             >
               <MdLogout />
-              {isLoading ? <CircleSpinner /> : <p>Log out</p>}
+              {isLoading ? <CircleSpinner size={15} /> : <p>Log out</p>}
             </button>
           </nav>
         </div>
