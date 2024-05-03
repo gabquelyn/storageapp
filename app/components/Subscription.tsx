@@ -3,10 +3,11 @@ import React from "react";
 import ModalWrapper from "./ModalWrapper";
 import { useSubscribeMutation } from "../api/features/paymentSlice";
 import { CircleSpinner } from "react-spinners-kit";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 export default function Subscription() {
   const [action, { isLoading }] = useSubscribeMutation();
   const router = useRouter();
+  const params = useSearchParams();
   const subscribeHandler = async () => {
     try {
       const res = await action(null).unwrap();
@@ -15,7 +16,7 @@ export default function Subscription() {
       console.log(err);
     }
   };
-
+  const sus = params.get("canceled");
   return (
     <ModalWrapper>
       <div className="bg-slate-50 rounded-md p-5 flex flex-col gap-2">
@@ -27,13 +28,20 @@ export default function Subscription() {
         <p className="">
           Continuing with us means you have agreed to our terms and conditions
         </p>
+        {sus === "true" && <p className="text-red-500">Subscription failed</p>}
         <div className="flex justify-end">
           <button
             className="bg-blue p-3 px-5 rounded-md text-white disabled:cursor-not-allowed"
             disabled={isLoading}
             onClick={subscribeHandler}
           >
-            {isLoading ? <CircleSpinner size={20} /> : "Subscribe"}
+            {isLoading ? (
+              <CircleSpinner size={20} />
+            ) : sus === "true" ? (
+              "Retry subscribing"
+            ) : (
+              "Subscribe"
+            )}
           </button>
         </div>
       </div>
