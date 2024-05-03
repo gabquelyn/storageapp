@@ -15,7 +15,9 @@ export default function Dashboard() {
   } = useGetSubscriptionQuery(null);
   if (isLoading) return <CenterLoading />;
   if (isSuccess) {
+    if(gotSub) console.log(subscriptionData)
     return (
+
       <div>
         {gettingSubscription ? (
           <CircleSpinner />
