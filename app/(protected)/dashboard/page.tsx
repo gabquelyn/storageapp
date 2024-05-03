@@ -15,11 +15,12 @@ export default function Dashboard() {
   } = useGetSubscriptionQuery(null);
   if (isLoading) return <CenterLoading />;
   if (isSuccess) {
+    if(gotSub) console.log(data)
     return (
       <div>
         {gettingSubscription ? (
           <CircleSpinner />
-        ) : gotSub && !subscriptionData?.active ? (
+        ) : gotSub && subscriptionData?.active ? (
           <Subscription />
         ) : (
           ""
