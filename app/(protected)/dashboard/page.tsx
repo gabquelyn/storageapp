@@ -20,7 +20,7 @@ export default function Dashboard() {
       <div>
         {gettingSubscription ? (
           <CircleSpinner />
-        ) : gotSub && !subscriptionData?.dataValues.active ? (
+        ) : gotSub && !subscriptionData?.dataValues?.active ? (
           <Suspense>
             <Subscription />
           </Suspense>
