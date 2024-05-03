@@ -15,7 +15,7 @@ export default function Dashboard() {
   } = useGetSubscriptionQuery(null);
   if (isLoading) return <CenterLoading />;
   if (isSuccess) {
-    if (gotSub) console.log(subscriptionData.dataValues);
+    // if (gotSub) console.log(subscriptionData.dataValues);
     return (
       <div>
         {gettingSubscription ? (
