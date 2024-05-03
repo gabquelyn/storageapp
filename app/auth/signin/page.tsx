@@ -1,5 +1,9 @@
-import React from "react";
+import React, { Suspense } from "react";
 import SignIn from "@/app/components/SignIn";
 export default function page() {
-  return <SignIn />;
+  return (
+    <Suspense>
+      <SignIn />
+    </Suspense>
+  );
 }

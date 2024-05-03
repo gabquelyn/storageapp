@@ -1,11 +1,13 @@
-import React from "react";
+import React, { Suspense } from "react";
 import SignIn from "./components/SignIn";
 
 export default function Poot() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2">
       <div className="px-[2rem] md:px-[3rem] lg:px-[8rem] pt-[5rem] md:pt-0 flex items-center justify-center  overflow-hidden">
-        <SignIn />
+        <Suspense>
+          <SignIn />
+        </Suspense>
       </div>
       <div className="hidden md:flex background text-white p-16">
         <div className="absolute inset-0 bg-[rgba(0,0,0,0.4)]"></div>

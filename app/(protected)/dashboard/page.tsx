@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { Suspense } from "react";
 import CenterLoading from "@/app/components/CenterLoading";
 import FileDisplay from "@/app/components/FilesDisplay";
 import { useGetfilesQuery } from "@/app/api/features/fileApiSlice";
@@ -20,7 +20,9 @@ export default function Dashboard() {
         {gettingSubscription ? (
           <CircleSpinner />
         ) : gotSub && !subscriptionData?.active ? (
-          <Subscription />
+          <Suspense>
+            <Subscription />
+          </Suspense>
         ) : (
           ""
         )}
