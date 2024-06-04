@@ -25,3 +25,13 @@ interface foldermetadata {
   totalSize: number;
   updatedAt: string;
 }
+
+interface FileViewDetails {
+  id: string;
+  filename: string;
+  type: "file" | "folder";
+  createdAt: string;
+  filekey: string
+}
+
+type OnDropCallback = (acceptedFiles: File[]) => void;

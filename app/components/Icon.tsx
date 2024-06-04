@@ -1,9 +1,16 @@
 import React from "react";
 import Image from "next/image";
-export default function Icon({ type }: { type: string }) {
+export default function Icon({
+  type,
+  className,
+}: {
+  type: string;
+  className?: string;
+}) {
   return (
     <div>
       <Image
+        className={className}
         src={`/assets/icon/${
           type == "folder"
             ? "folder"
@@ -46,6 +53,7 @@ export default function Icon({ type }: { type: string }) {
         width={25}
         height={25}
         alt="type"
+        unoptimized
       />
     </div>
   );

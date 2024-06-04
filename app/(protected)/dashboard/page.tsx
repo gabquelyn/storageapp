@@ -21,7 +21,7 @@ export default function Dashboard() {
         {gettingSubscription ? (
           <CircleSpinner />
         ) : gotSub && !subscriptionData?.dataValues?.active ? (
-          <Suspense>
+          <Suspense fallback={<p>...</p>}>
             <Subscription />
           </Suspense>
         ) : (

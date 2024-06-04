@@ -1,50 +1,98 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import { CircleSpinner } from "react-spinners-kit";
 import ModalWrapper from "./ModalWrapper";
+import AccessSharing from "./AccessSharing";
+import moment from "moment";
+import { FaSkull } from "react-icons/fa";
+import {
+  useDeleteFileMutation,
+  useDeleteFolderFilesMutation,
+} from "../api/features/fileApiSlice";
+import { FaTimes } from "react-icons/fa";
 export default function DeleteModal({
   closeModal,
-  filename,
-  isLoading,
-  isError,
-  onDelete,
+  fileDetails,
 }: {
   closeModal: () => void;
-  filename: string;
-  isLoading: boolean;
-  isError: boolean;
-  onDelete: () => void;
+  fileDetails?: FileViewDetails;
 }) {
+  const [deletFile, { isLoading: deletingFile, isError: deletingFileFailed }] =
+    useDeleteFileMutation();
+  const [
+    deletFolder,
+    { isLoading: deletingFolder, isError: deletingFolderFailed },
+  ] = useDeleteFolderFilesMutation();
+  const [term, setTerm] = useState("");
+  const fileDeleteHandler = async () => {
+    try {
+      if (fileDetails?.type === "file")
+        await deletFile(fileDetails!.id).unwrap();
+      else await deletFolder(fileDetails!.id).unwrap();
+      closeModal();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <ModalWrapper>
-      <div className="p-8 rounded-md bg-slate-100 flex flex-col gap-2 max-w-[90%]">
-        <div>
-          <p className="font-semibold uppercase ">Deleting file initiated</p>
-          <p className="text-[.7rem] italic">Filename: {filename}</p>
-        </div>
-        <p className="">
-          This is a{" "}
-          <span className="text-red-500 font-semibold">
-            destructive and irreversible action,
-          </span>{" "}
-          do you intend to continue?
-        </p>
-        <div className="flex items-center justify-between">
+      <div className=" bg-slate-100 p-8 pb-10 rounded-md max-w-[90%]">
+        <div className="flex justify-end">
           <button
-            className="bg-light-blue text-white p-2 rounded-md px-4"
+            className="text-grey p-2 rounded-md px-4"
             onClick={closeModal}
           >
-            Cancel
-          </button>
-          <button
-            className="bg-red-500 text-white p-2 rounded-md px-4 disabled:cursor-not-allowed"
-            disabled={isLoading}
-            onClick={onDelete}
-          >
-            {isLoading ? <CircleSpinner size={15} /> : "Delete"}
+            <FaTimes />
           </button>
         </div>
+        <div className="flex flex-col gap-5">
+          <div>
+            <p className="font-semibold uppercase mb-2">
+              {fileDetails?.type === "folder" ? "Foldername:" : "Filename"}{" "}
+              {fileDetails?.filename}
+            </p>
+            <div className="text-[.9rem]">
+              {fileDetails?.type === "file" && (
+                <p>Filekey: {fileDetails?.filekey}</p>
+              )}
+              <p>
+                Created:{" "}
+                {moment(fileDetails?.createdAt).format("YYYY mm dddd mm:hh:ss")}
+              </p>
+            </div>
+          </div>
 
-        {isError && <div className="text-red-500">Deleting file failed!</div>}
+          {/* handle the sharing of the files */}
+          <AccessSharing fileDetails={fileDetails!} />
+          {/* handle file deletion */}
+          <div className="flex flex-col gap-2">
+            <p className="uppercase font-semibold flex gap-1 items-center text-red-500">
+              Danger zone <FaSkull />
+            </p>
+
+            <input
+              className="w-full placeholder:text-[.8rem] placeholder:italic p-2 rounded-md outline-0 ring-1 ring-red-500"
+              placeholder="type 'delete' to complete deletion"
+              onChange={(e) => setTerm(e.target.value)}
+            />
+            <button
+              className="bg-red-500 p-1 text-white rounded-[2rem] w-full disabled:cursor-not-allowed"
+              onClick={fileDeleteHandler}
+              disabled={deletingFile || deletingFolder || term !== "delete"}
+            >
+              {deletingFile || deletingFolder ? (
+                <CircleSpinner size={15} />
+              ) : (
+                <p>Complete deletion</p>
+              )}
+            </button>
+          </div>
+
+          {(deletingFileFailed || deletingFolderFailed) && (
+            <div className="text-red-500">Deletion failed!</div>
+          )}
+        </div>
       </div>
     </ModalWrapper>
   );

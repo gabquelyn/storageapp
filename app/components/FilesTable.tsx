@@ -3,19 +3,11 @@ import FileRow from "../atoms/FileRow";
 export default function FilesTable({
   files,
   folders,
-  initiateDelete,
+  initiateView,
 }: {
   files: filemetaData[];
   folders: foldermetadata[];
-  initiateDelete: ({
-    id,
-    filename,
-    type,
-  }: {
-    id: string;
-    filename: string;
-    type: "file" | "folder";
-  }) => void;
+  initiateView: ({ id, filename, type }: FileViewDetails) => void;
 }) {
   if (files.length == 0 && folders.length == 0) {
     return (
@@ -46,7 +38,7 @@ export default function FilesTable({
                 updatedAt={folder.updatedAt}
                 size={folder.totalSize}
                 id={folder.id}
-                initiateDelete={initiateDelete}
+                initiateView={initiateView}
               />
             ))}
             {files.map((file) => (
@@ -59,7 +51,7 @@ export default function FilesTable({
                 createdAt={file.createdAt}
                 updatedAt={file.updatedAt}
                 size={file.size}
-                initiateDelete={initiateDelete}
+                initiateView={initiateView}
               />
             ))}
           </tbody>
