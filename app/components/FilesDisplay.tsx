@@ -123,7 +123,7 @@ export default function FileDisplay({
             <div className="bg-slate-50 rounded-md p-4 mt-4">
               <div className="flex flex-col gap-2">
                 {Array.from(files).map((e) => (
-                  <Uploading file={e} />
+                  <Uploading key={e.name} file={e} />
                 ))}
               </div>
               {uploadingFiles && <CenterLoading />}
