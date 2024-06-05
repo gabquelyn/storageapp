@@ -3,6 +3,7 @@ import { Nunito_Sans, Montserrat } from "next/font/google";
 import "./globals.css";
 import clsx from "clsx";
 import Providers from "./utils/Providers";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const nuni = Montserrat({ subsets: ["latin"] });
 
@@ -16,10 +17,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  
   return (
     <html lang="en">
       <body className={clsx(nuni.className, "text-[.9rem]")}>
-        <Providers>{children}</Providers>
+        <GoogleOAuthProvider
+          clientId={process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENTID!}
+        >
+          <Providers>{children}</Providers>
+        </GoogleOAuthProvider>
       </body>
     </html>
   );

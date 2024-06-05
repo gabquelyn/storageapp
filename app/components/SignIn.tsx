@@ -1,6 +1,5 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import SignWith from "@/app/atoms/SignWith";
 import { MdOutlineEmail } from "react-icons/md";
 import { AiOutlineLock } from "react-icons/ai";
 import ModalWrapper from "./ModalWrapper";
@@ -12,7 +11,9 @@ import { setCredentials } from "../api/authSlice";
 import { useDispatch } from "react-redux";
 import ActionButton from "../atoms/ActionButton";
 import validator from "validator";
-
+import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
+import { useOAuthLoginMutation } from "../api/features/authApiSlice";
+import { CircleSpinner } from "react-spinners-kit";
 export default function SignIn() {
   const [signInDetails, setSignInDetails] = useState({
     email: "",
@@ -30,6 +31,8 @@ export default function SignIn() {
   const router = useRouter();
   const params = useSearchParams();
   const [passwordToggled, setPasswordToggles] = useState(false);
+  const [oAuthLogin, { isLoading: oAuthLoading, isError: oAuthFialed }] =
+    useOAuthLoginMutation();
   const [login, { isLoading }] = useLoginMutation();
   const inputChangeHandler: InputHandler = (e) => {
     setErr("");
@@ -64,6 +67,19 @@ export default function SignIn() {
     }
   };
 
+  const googleSucessHandler = async (response: CredentialResponse) => {
+    try {
+      const res = await oAuthLogin({ ...response }).unwrap();
+      dispatch(setCredentials({ ...res }));
+      router.push("/dashboard");
+    } catch (err) {
+      console.log(err);
+      setErr("Oops! Account does not exist");
+    }
+  };
+
+  const googleErrorHandler = () => {};
+
   return (
     <div className="w-full">
       {sus === "true" && display && (
@@ -80,7 +96,28 @@ export default function SignIn() {
           </div>
         </ModalWrapper>
       )}
-      <SignWith type="in" />
+      <div className="flex items-center justify-center flex-col">
+        <p className="font-semibold text-[1.4rem] mb-10 capitalize text-center md:text-left">
+          Hi! welcome back
+        </p>
+        {oAuthLoading ? (
+          <CircleSpinner size={25} color="#77CEEF" />
+        ) : (
+          <GoogleLogin
+            onSuccess={googleSucessHandler}
+            onError={googleErrorHandler}
+            width={300}
+            shape="pill"
+          />
+        )}
+
+        <div className="my-4 w-full flex items-center justify-center gap-4 text-grey text-[.7rem]">
+          <div className=" bg-ash h-[1px] w-full"></div>
+          <p className="whitespace-nowrap">Or sign in with email</p>
+          <div className=" bg-ash h-[1px] w-full"></div>
+        </div>
+      </div>
+
       <div className="flex flex-col gap-4">
         {err && <p className="text-red-500">{err}</p>}
         <Input

@@ -2,14 +2,17 @@
 import React, { useState } from "react";
 import { MdOutlineEmail } from "react-icons/md";
 import { AiOutlineLock } from "react-icons/ai";
-import SignWith from "@/app/atoms/SignWith";
+import { CircleSpinner } from "react-spinners-kit";
 import { BsPerson } from "react-icons/bs";
 import Input from "@/app/atoms/Input";
 import Link from "next/link";
 import Image from "next/image";
 import ActionButton from "@/app/atoms/ActionButton";
 import { useSignUpMutation } from "@/app/api/features/authApiSlice";
+import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
+import { useOAuthRegisterMutation } from "@/app/api/features/authApiSlice";
 import validator from "validator";
+import { useRouter } from "next/navigation";
 export default function SignUp() {
   const [signInDetails, setSignInDetails] = useState({
     name: "",
@@ -17,6 +20,11 @@ export default function SignUp() {
     password: "",
   });
   const [register, { isSuccess, isLoading, isError }] = useSignUpMutation();
+  const [
+    oAuthRegiste,
+    { isLoading: oAuthRegistering, isError: oAuthRegisterFailed },
+  ] = useOAuthRegisterMutation();
+  const router = useRouter();
   const [passwordToggled, setPasswordToggles] = useState(false);
   const inputChangeHandler: InputHandler = (e) => {
     const { name, value } = e.target;
@@ -32,10 +40,21 @@ export default function SignUp() {
       return;
     try {
       await register({ ...signInDetails });
+      router.push("/");
     } catch (err) {
       console.log(err);
     }
   };
+
+  const googleSucessHandler = async (response: CredentialResponse) => {
+    try {
+      await oAuthRegiste({ ...response }).unwrap();
+      router.push("/");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const googleErrorHandler = async () => {};
 
   return (
     <div className="w-full relative">
@@ -54,13 +73,35 @@ export default function SignUp() {
         </div>
       )}
 
-      <SignWith type="up" />
-      <div className="flex flex-col gap-4">
-        {isError && (
-          <p className="text-red-500">
-            Account already exists, try login instead
-          </p>
+      <div className="flex items-center justify-center flex-col">
+        <p className="font-semibold text-[1.4rem] mb-10 capitalize text-center md:text-left">
+          Hi! welcome back
+        </p>
+        {oAuthRegistering ? (
+          <CircleSpinner size={25} color="#77CEEF" />
+        ) : (
+          <GoogleLogin
+            onSuccess={googleSucessHandler}
+            text="signup_with"
+            onError={googleErrorHandler}
+            width={300}
+            shape="pill"
+          />
         )}
+
+        <div className="my-4 w-full flex items-center justify-center gap-4 text-grey text-[.7rem]">
+          <div className=" bg-ash h-[1px] w-full"></div>
+          <p className="whitespace-nowrap">Or sign up with email</p>
+          <div className=" bg-ash h-[1px] w-full"></div>
+        </div>
+      </div>
+      <div className="flex flex-col gap-4">
+        {isError ||
+          (oAuthRegisterFailed && (
+            <p className="text-red-500">
+              Account already exists, try login instead
+            </p>
+          ))}
         <Input
           icon={<BsPerson />}
           name="name"

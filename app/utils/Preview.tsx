@@ -1,9 +1,9 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 export default function Preview({ file }: { file: File }) {
   const [fileUrl, setFileUrl] = useState("");
-  
+
   if (file.type.includes("image")) {
     const imageReader = new FileReader();
     imageReader.onload = (e) => {
@@ -19,7 +19,6 @@ export default function Preview({ file }: { file: File }) {
   //   console.log(fileUrl)
   //   setFileUrl(fileUrl);
   // }
-  
 
   if (file.type.includes("image") && fileUrl)
     return (
@@ -28,5 +27,5 @@ export default function Preview({ file }: { file: File }) {
       </div>
     );
 
-  if (file.type === "application/pdf") return <p>hh</p>;
+  if (file.type === "application/pdf") return <p></p>;
 }

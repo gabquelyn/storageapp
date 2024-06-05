@@ -1,11 +1,25 @@
 "use client";
 import { apiSlice } from "../apiSlice";
-import { logOut, setCredentials} from "../authSlice"
+import { logOut, setCredentials } from "../authSlice";
 const authApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     login: builder.mutation({
       query: (credentials) => ({
         url: "/auth",
+        method: "POST",
+        body: { ...credentials },
+      }),
+    }),
+    oAuthLogin: builder.mutation({
+      query: (credentials) => ({
+        url: "/oauth/login",
+        method: "POST",
+        body: { ...credentials },
+      }),
+    }),
+    oAuthRegister: builder.mutation({
+      query: (credentials) => ({
+        url: "/oauth/register",
         method: "POST",
         body: { ...credentials },
       }),
@@ -83,5 +97,7 @@ export const {
   useVerifyQuery,
   useForgotMutation,
   useResetMutation,
-  useUpdatePasswordMutation
+  useUpdatePasswordMutation,
+  useOAuthLoginMutation,
+  useOAuthRegisterMutation,
 } = authApiSlice;
